@@ -1,0 +1,26 @@
+body {
+    padding-top: 10px;
+    padding-left: 10px;
+    right: 10px;
+}
+
+.card {
+    background-size: cover;
+    height: 210px;
+    border-radius: 7px
+}
+
+.card:hover {
+    -webkit-transform: scale(1.05, 1.05);
+    -ms-transform: scale(1.05, 1.05);
+    transform: scale(1.05, 1.05);
+
+}
+
+.status-active {
+    color: #859900;
+}
+
+.status-finished {
+    color: #dc322f;
+}

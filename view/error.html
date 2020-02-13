@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+    <link href="css/lib.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+</head>
+<body>
+<ul class="f-nav f-nav-tabs">
+    <li class="active"><a href="main.html">Главная страница</a></li>
+    <script for="render">
+        for (var name in parameter) {
+            if (parameter[name].open) {
+                if (parameter[name].current) {
+                    page.innerHTML += "<li class='active'><a href='table.html?tournament=" + name + "'>" + name + "</a></li>";
+                } else {
+                    page.innerHTML += "<li><a href='table.html?tournament=" + name + "'>" + name + "</a></li>";
+                }
+            }
+        }
+        end()</script>
+</ul>
+<div class="g">
+    <div class="g-row">
+        <div class="g-12">
+            <h1>Во время заполнения формы произошла ошибка.</h1>
+            <h3>Проверьте, что вы корректно ввели свой id. В нем должны бытьтолько маленькие латинские буквы. И никаких пробелов.</h3>
+        </div>
+    </div>
+</div>
+</body>
+</html>

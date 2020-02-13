@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>?</title>
+    <link href="css/lib.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+</head>
+<body>
+<ul class="f-nav f-nav-tabs">
+    <li><a href="main.html">Главная страница</a></li>
+    <li class='active'><a>Тест</a></li>
+</ul>
+<div class="g">
+    <div class="g-row">
+        <div class="g-12">
+            <table class="f-table-zebra">
+                <caption>
+                    Тест
+                </caption>
+                <thead>
+                <tr>
+                    <th>Место</th>
+                    <th>Имя</th>
+                    <th>Колода</th>
+                    <th>Победы/поражения</th>
+                    <th>Рейтинг</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr><td>1</td><td>Super test</td><td>tst</td><td>1/0</td><td>1</td></tr><tr><td>2</td><td>mega tst</td><td>tst</td><td>0/1</td><td>0</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

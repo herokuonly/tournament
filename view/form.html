@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Опрос про колоды</title>
+    <link href="css/lib.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <script src="jquery.js"></script>
+    <script src="jqueryui.js"></script>
+</head>
+<body>
+<ul class="f-nav f-nav-tabs">
+    <li class="active"><a href="main.html">Главная страница</a></li>
+    <script for="render">
+        for (var name in parameter) {
+            if (parameter[name].open) {
+                if (parameter[name].current) {
+                    page.innerHTML += "<li class='active'><a href='table.html?tournament=" + name + "'>" + name + "</a></li>";
+                } else {
+                    page.innerHTML += "<li><a href='table.html?tournament=" + name + "'>" + name + "</a></li>";
+                }
+            }
+        }
+        end()</script>
+</ul>
+<div class="g">
+    <div class="g-row">
+        <div class="g-12">
+            <h1>Опрос про коллоды для турнира: "
+                <script for="render">
+                    for (var name in parameter) {
+                        if (parameter[name].open) {
+                            if (parameter[name].current) {
+                                page.innerHTML += name;
+                                break;
+                            }
+                        }
+                    }
+                    end()</script>
+                "
+            </h1>
+        </div>
+
+    </div>
+    <div class="g-row">
+        <div class="g-12">Введите свой id, который вы получили от организаторов: <input type="text" id="code"></div>
+    </div>
+
+    <div class="g-row">
+        <div class="g-12">Расположите участников, перетаскивая их мышкой, в порядке интересности их колод. Чем
+            <b>выше</b> участник, тем
+            <b>лучше</b> колода:
+        </div>
+    </div>
+
+    <div class="g-row">
+        <div class="g-12">Обратите внимание, на то, что вы не получите очков за своё место в своём ответе. То есть
+            положение вашей колоды в вашем ответе будет игнорироваться.
+        </div>
+    </div>
+    <div class="g-row">
+        <div class="g-12">
+            <br>
+            <table class="f-table-zebra">
+                <caption>Расположеине участников</caption>
+                <thead>
+                <tr>
+                    <th>Имя</th>
+                    <th>Коллода</th>
+                </tr>
+                </thead>
+                <tbody class="sortable-list">
+                <script for="render">
+                    for (var name in parameter) {
+                        if (parameter[name].current) {
+                            for (var key in parameter[name].users) {
+                                var user = parameter[name].users[key];
+                                page.innerHTML += "<tr id='" + user.id + "'><td>" + user.name + "</td><td>" + user.deckName + "</td></tr>"
+                            }
+                            break;
+                        } else {
+                        }
+
+                    }
+                    end()</script>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="g-row">
+        <div class="g-12">
+            <mark>Внимание!</mark>
+            Вы можете отправить опрос тоько <b>один</b> раз!
+        </div>
+    </div>
+    <div class="g-row">
+        <div class="g-12">
+            <div class="f-actions">
+                <button class="f-bu f-bu-default" id="send">Отправить</button>
+            </div><!-- f-actions -->
+        </div>
+    </div>
+</div>
+<script>
+    var lst = undefined;
+    $('.sortable-list').sortable({
+        connectWith: '.sortable-list',
+        update: function (event, ui) {
+            var changedList = this.id;
+            var order = $(this).sortable('toArray');
+            var positions = order.join(';');
+            lst = positions;
+
+            console.log({
+                id: changedList,
+                positions: positions
+            });
+        }
+    });
+
+    function get(name) {
+        if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
+            return decodeURIComponent(name[1]);
+    }
+
+    document.getElementById("send").onclick = function (ev) {
+        var tournament = get("tournament");
+        var code = document.getElementById("code").value;
+        var list = lst;
+        if (list == undefined) {
+            alert("Отсортируйте участников!");
+            return;
+        }
+        if (code.length != 20) {
+            alert("Вы ввели некоректный логин!");
+            return;
+        }
+        document.location = "/ans_form?tournament=" + tournament + "&code=" + code + "&ans=" + list;
+    }
+</script>
+</body>
+</html>

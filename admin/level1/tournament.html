@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Администрирование</title>
+    <link href="/admin/res/framework.css" rel="stylesheet">
+    <link href="/admin/res/styles.css" rel="stylesheet">
+</head>
+<body>
+<ul class="f-nav f-nav-tabs">
+    <li class="active"><a href="/admin/1/index.html">Уровень доступа 1</a></li>
+    <li><a href="/admin/2/index.html">Уровень доступа 2</a></li>
+    <li><a href="/admin/3/index.html">Уровень доступа 3</a></li>
+    <li><a href="/admin/4/index.html">Уровень доступа 4</a></li>
+</ul>
+<script>
+    function getXmlHttp() {
+        var xmlhttp;
+        try {
+            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch (e) {
+            try {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (E) {
+                xmlhttp = false;
+            }
+        }
+        if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
+            xmlhttp = new XMLHttpRequest();
+        }
+        return xmlhttp;
+    }
+
+    function get(name) {
+        if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
+            return decodeURIComponent(name[1]);
+    }
+
+    function add_user(name, deck) {
+        var req = getXmlHttp();
+        req.open('GET', '/add_user?name=' + name + "&deck=" + deck + "&tournament=" + get("name"), true);
+        req.onreadystatechange = function (ev1) {
+            if (req.readyState == 4) {
+                window.location.reload(true);
+            }
+        };
+        req.send(null);
+    }
+
+    function remove_user(id) {
+        var k = id.substr(6);
+        console.log(k);
+        var req = getXmlHttp();
+        req.open('GET', '/remove_user?id=' + k + "&tournament=" + get("name"), true);
+        req.onreadystatechange = function (ev1) {
+            if (req.readyState == 4) {
+                window.location.reload(true);
+            }
+        };
+        req.send(null);
+    }
+
+
+    function load_info() {
+        var req = getXmlHttp();
+        req.open('GET', '/get_tournament?name=' + get('name'), true);
+        req.onreadystatechange = function () {
+            if (req.readyState == 4) {
+                if (req.status == 200) {
+                    var table = document.getElementById("users-body");
+                    var info = JSON.parse(req.responseText);
+                    console.log(info);
+                    for (var key in info.users) {
+                        console.log(key);
+                        var uid = key;
+                        var user = info.users[key];
+                        var id = "user-" + uid;
+                        table.innerHTML +=
+                            "<tr>" +
+                            "<td>" + user.id + "</td>" +
+                            "<td>" + user.name + "</td>" +
+                            "<td>" + user.deckName + "</td>" +
+                            "<td>" + user.score + "</td>" +
+                            "<td><button class='f-bu f-bu-warning' id='6" + id + "' onclick='remove_user(this.id)'>-</button></td>" +
+                            "</tr>";
+
+                    }
+
+                }
+            }
+        };
+        req.send(null);
+    }
+
+    load_info();
+
+
+</script>
+<div class="g">
+    <div class="g-row">
+        <table class="f-table-zebra">
+            <caption>Участники</caption>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Имя</th>
+                <th>Колода</th>
+                <th>Очки</th>
+                <th>Действие</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th></th>
+                <th><input type="text" id="user-name"></th>
+                <th><input type="text" id="user-deck"></th>
+                <th></th>
+                <th>
+                    <button class="f-bu f-bu-success"
+                            onclick="add_user(document.getElementById('user-name').value,
+                            document.getElementById('user-deck').value)">+
+                    </button>
+                </th>
+            </tr>
+            </tfoot>
+            <tbody id="users-body">
+            </tbody>
+        </table>
+
+    </div>
+    <div class="g-row">
+        <form action="/win_match">
+            <legend>Добавить результат матча</legend>
+            <input name="tournament" id="form-tournament" hidden>
+            <fieldset>
+                <div class="f-row">
+                    <label for="id1">ID победителя:</label>
+                    <div class="f-input">
+                        <input type="text" name="id1" id="id1">
+                        <p class="f-input-help">
+                            Скопируйте id из таблицы сверху.
+                        </p>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <div class="f-row">
+                    <label for="id2">ID проигравшего:</label>
+                    <div class="f-input">
+                        <input type="text" name="id2" id="id2">
+                        <p class="f-input-help">
+                            Скопируйте id из таблицы сверху.
+                        </p>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="f-actions">
+                <button type="submit" class="f-bu f-bu-default">Добваить</button>
+            </div><!-- f-actions -->
+        </form>
+
+    </div>
+    <script>
+        document.getElementById("form-tournament").value = get("name");
+    </script>
+</div>
+</body>
+</html>

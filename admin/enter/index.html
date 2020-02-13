@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Войти | Kartonki admin</title>
+    <link rel="stylesheet" type="text/css" href="/admin/res/framework.css">
+    <style>
+        .form {
+            width: 300px;
+            height: 175px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin: -100px 0 0 -150px;
+            background-color: white;
+
+            border-radius: 14px
+        }
+
+        .title {
+            width: 200px;
+            position: absolute;
+            left: 50%;
+            margin-left: -100px;
+
+        }
+
+        .back-title {
+            width: 300px;
+            height: 40px;
+            position: absolute;
+            left: 50%;
+            margin-left: -150px;
+            background-color: lightskyblue;
+
+            border-radius: 14px
+        }
+
+        body {
+            background-color: lightgray;
+        }
+    </style>
+</head>
+<body>
+<div class="form">
+    <div class="back-title"></div>
+    <div class="title">
+        <h1>Table admin</h1>
+    </div>
+    <input type="text" id="secret" class="title" style="margin-top: 50px" placeholder="Секретный код">
+    <button class="f-bu f-bu-default title" style="margin-top: 100px"
+            onclick="window.location.replace('/save_cookies?secret='+document.getElementById('secret').value);"
+    >Войти
+    </button>
+
+
+</div>
+</body>
+</html>

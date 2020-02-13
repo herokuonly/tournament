@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="/admin/res/framework.css" rel="stylesheet">
+    <link href="/admin/res/styles.css" rel="stylesheet">
+</head>
+<body>
+<div class="g">
+    <div class="g-row">
+        <div class="g-12">
+            <script for="render">
+                if (Array.isArray(parameter)) {
+                    page.innerHTML += "" +
+                        "<table class='f-table-zebra'>" +
+                        "<caption></caption>";
+                    var tmp = parameter[0];
+                    page.innerHTML += "<thead><tr>";
+                    for (var key in tmp) {
+                        page.innerHTML += "<th>" + key + "</th>";
+                    }
+                    page.innerHTML += "<th>Действие</th>";
+                    page.innerHTML += "</tr></thead>";
+                    page.innerHTML += "<tbody>";
+                    for (var key in parameter) {
+                        page.innerHTML += "<tr>";
+                        var val = parameter[key];
+                        for (var key2 in val) {
+                            if (val[key2].toString().indexOf("\n") != -1) {
+                                page.innerHTML += "<td><textarea rows='1'>" + val[key2] + "</textarea></td>";
+                            } else {
+                                page.innerHTML += "<td><input type='text' value='" + val[key2] + "'></td>";
+                            }
+                        }
+                        page.innerHTML += "<td><button class='f-bu f-bu-warning'>-</button></td></tr>"
+                    }
+                    page.innerHTML += "</tbody>";
+                    page.innerHTML += "<tfoot><tr>";
+                    for (var key in tmp) {
+                        page.innerHTML += "<th><textarea rows='1'></textarea></th>";
+                    }
+                    page.innerHTML += "<th><button class='f-bu f-bu-success'>+</button></th>";
+                    page.innerHTML += "</tr></tfoot>";
+                    page.innerHTML += "</table>";
+                } else {
+                    page.innerHTML += "not an array";
+                }
+
+                end()</script>
+        </div>
+    </div>
+</div>
+</body>
+</html>

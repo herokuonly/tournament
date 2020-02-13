@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>?</title>
+    <link href="css/lib.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+</head>
+<body>
+<ul class="f-nav f-nav-tabs">
+    <li><a href="main.html">Главная страница</a></li>
+    <script for="render">
+        for (var name in parameter) {
+            if (parameter[name].open) {
+                if (parameter[name].current) {
+                    page.innerHTML += "<li class='active'><a>" + name + "</a></li>";
+                } else {
+                    page.innerHTML += "<li><a>" + name + "</a></li>";
+                }
+            }
+        }
+        end()</script>
+</ul>
+<div class="g">
+    <div class="g-row">
+        <div class="g-12">
+            <table class="f-table-zebra">
+                <caption>
+                    <script for="render">
+                        for (var name in parameter) {
+                            if (parameter[name].current) {
+                                page.innerHTML += name;
+                                break;
+                            }
+                        }
+                        end()</script>
+                </caption>
+                <thead>
+                <tr>
+                    <th>Место</th>
+                    <th>Имя</th>
+                    <th>Колода</th>
+                    <th>Победы/поражения</th>
+                    <th>Рейтинг</th>
+                </tr>
+                </thead>
+                <tbody>
+                <script for="render">
+                    for (var name in parameter) {
+                        if (parameter[name].current) {
+                            function compare(a, b) {
+                                if (a.score < b.score) {
+                                    return 1;
+                                }
+                                if (a.score > b.score) {
+                                    return -1;
+                                }
+                                return 0;
+                            }
+
+                            var participants = [];
+                            for (var id in parameter[name].users) {
+                                participants.push(parameter[name].users[id]);
+                            }
+                            participants.sort(compare);
+                            var ind = 1;
+                            for (var key in participants) {
+                                var user = participants[key];
+                                page.innerHTML += "<tr>" +
+                                    "<td>" + ind + "</td>" +
+                                    "<td>" + user.name + "</td>" +
+                                    "<td>" + user.deckName + "</td>" +
+                                    "<td>" + user.wins + "/" + user.loose + "</td>" +
+                                    "<td>" + user.score + "</td>" +
+                                    "</tr>";
+                                ind++;
+                            }
+                        }
+                    }
+                    end()</script>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

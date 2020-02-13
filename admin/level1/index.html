@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Администрирование</title>
+    <link href="/admin/res/framework.css" rel="stylesheet">
+    <link href="/admin/res/styles.css" rel="stylesheet">
+</head>
+<body>
+<ul class="f-nav f-nav-tabs">
+    <li class="active"><a href="/admin/1/index.html">Уровень доступа 1</a></li>
+    <li><a href="/admin/2/index.html">Уровень доступа 2</a></li>
+    <li><a href="/admin/3/index.html">Уровень доступа 3</a></li>
+    <li><a href="/admin/4/index.html">Уровень доступа 4</a></li>
+</ul>
+<script>
+    function getXmlHttp() {
+        var xmlhttp;
+        try {
+            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch (e) {
+            try {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (E) {
+                xmlhttp = false;
+            }
+        }
+        if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
+            xmlhttp = new XMLHttpRequest();
+        }
+        return xmlhttp;
+    }
+
+    function add_tournament(name) {
+        var k = name;
+        var req = getXmlHttp();
+        req.open('GET', '/create_tournament?name=' + k, true);
+        req.onreadystatechange = function (ev1) {
+            if (req.readyState == 4) {
+                window.location.reload(true);
+            }
+        };
+        req.send(null);
+    }
+
+    function update_tournament(id) {
+        var k = id.substr(6);
+        console.log(k);
+        var req = getXmlHttp();
+        req.open('GET', '/xor_tournament?name=' + k, true);
+        req.onreadystatechange = function (ev1) {
+            if (req.readyState == 4) {
+                window.location.reload(true);
+            }
+        };
+        req.send(null);
+    }
+    function update_ask(id) {
+        var k = id.substr(6);
+        console.log(k);
+        var req = getXmlHttp();
+        req.open('GET', '/xor_tournament_ans?name=' + k, true);
+        req.onreadystatechange = function (ev1) {
+            if (req.readyState == 4) {
+                window.location.reload(true);
+            }
+        };
+        req.send(null);
+    }
+
+
+    function load_users() {
+        var req = getXmlHttp();
+        req.open('GET', '/all_tournaments', true);
+        req.onreadystatechange = function () {
+            if (req.readyState == 4) {
+                if (req.status == 200) {
+                    var table = document.getElementById("users-body");
+                    var info = JSON.parse(req.responseText);
+                    console.log(info);
+                    for (var key in info) {
+                        var name = key;
+                        var open = info[key].open;
+                        var canAns = info[key].canAns;
+                        var id = "user-" + name;
+
+                        var html = "";
+                        html +=
+                            "<tr>" +
+                            "<td><a href='tournament.html?name=" + name + "'>" + name + "</a></td><td>";
+                        if (open) {
+                            html +=
+                                "<button class='f-bu f-bu-success' id='6" + id + "' onclick='update_tournament(this.id)'>открыть/закрыть</button>";
+                        } else {
+                            html +=
+                                "<button class='f-bu f-bu-warning' id='6" + id + "' onclick='update_tournament(this.id)'>открыть/закрыть</button>";
+                        }
+                        if (canAns) {
+                            html +=
+                                "<button class='f-bu f-bu-success' id='7" + id + "' onclick='update_ask(this.id)'>закрыть опрос</button>";
+                        } else {
+                            html +=
+                                "<button class='f-bu f-bu-warning' id='7" + id + "' onclick='update_ask(this.id)'>открыть опрос</button>";
+                        }
+                        html += "</td></tr>";
+                        table.innerHTML += html;
+                    }
+                }
+            }
+        };
+        req.send(null);
+    }
+
+    load_users();
+
+</script>
+<div class="g">
+    <div class="g-row">
+        <table class="f-table-zebra">
+            <caption>Пользователи</caption>
+            <thead>
+            <tr>
+                <th>Имя турнира</th>
+                <th>Действие</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th><input type="text" id="tournament-name"></th>
+                <th>
+                    <button class="f-bu f-bu-success"
+                            onclick="add_tournament(document.getElementById('tournament-name').value)">+
+                    </button>
+                </th>
+            </tr>
+            </tfoot>
+            <tbody id="users-body">
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
