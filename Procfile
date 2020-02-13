@@ -1,1 +1,1 @@
-web:    java $JAVA_OPTS -jar target/classes/Main.jar $PORT
+web: java -jar target/Sorter-1.0-SNAPSHOT.jar $PORT
